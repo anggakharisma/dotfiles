@@ -1,7 +1,7 @@
 # My dotfiles
 ![Project preview](./preview.jpg)
 
-Themes: [https://github.com/rose-pine](Rose Pine)
-### Configuration For: 
+Themes: ![Rose Pine](https://github.com/rose-pine)
+## Configuration For: 
 - Neovim
 - Tmux
