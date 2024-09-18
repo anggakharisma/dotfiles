@@ -132,6 +132,8 @@ require("lazy").setup({
       -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
     }
   },
+
+  { 'akinsho/git-conflict.nvim', version = "*", config = true }
 });
 
 -- editor config
