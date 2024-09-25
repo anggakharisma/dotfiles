@@ -24,6 +24,8 @@ require("lazy").setup({
   "hrsh7th/vim-vsnip",
   'norcalli/nvim-colorizer.lua',
   "hrsh7th/cmp-nvim-lsp",
+  "mfussenegger/nvim-dap",
+  "jay-babu/mason-nvim-dap.nvim",
   "hrsh7th/cmp-buffer",
   "hrsh7th/cmp-path",
   "hrsh7th/cmp-cmdline",
@@ -812,3 +814,15 @@ end, { desc = "Next todo comment" })
 vim.keymap.set("n", "[t", function()
   require("todo-comments").jump_prev()
 end, { desc = "Previous todo comment" })
+
+
+require('mason-nvim-dap').setup({
+  ensure_installed = { 'node2' },
+  handlers = {
+    function(config)
+      -- all sources with no handler get passed here
+      -- Keep original functionality
+      require('mason-nvim-dap').default_setup(config)
+    end,
+  },
+})
