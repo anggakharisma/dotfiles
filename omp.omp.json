@@ -13,7 +13,7 @@
             "segments": [
                 {
                     "foreground": "p:os",
-                    "style": "plain",
+                    "style": "diamond",
                     "template": "{{.Icon}} ",
                     "type": "os"
                 },
