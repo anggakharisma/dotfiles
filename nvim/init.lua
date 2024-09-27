@@ -17,14 +17,25 @@ require("lazy").setup({
   event = "VeryLazy",
   opts = {},
   config = function(_, opts) require 'lsp_signature'.setup(opts) end,
-  { "folke/neodev.nvim", opts = {} },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
+  },
   "hrsh7th/cmp-vsnip",
-  { "rose-pine/neovim",  name = "rose-pine" },
+  { "rose-pine/neovim",     name = "rose-pine" },
   "craftzdog/solarized-osaka.nvim",
   "hrsh7th/vim-vsnip",
   'norcalli/nvim-colorizer.lua',
   "hrsh7th/cmp-nvim-lsp",
   "mfussenegger/nvim-dap",
+  { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
   "jay-babu/mason-nvim-dap.nvim",
   "hrsh7th/cmp-buffer",
   "hrsh7th/cmp-path",
@@ -103,7 +114,7 @@ require("lazy").setup({
     }
   },
 
-  { 'akinsho/git-conflict.nvim', version = "*", config = true }
+  { 'akinsho/git-conflict.nvim', version = "*", config = true },
 });
 
 -- editor config
@@ -794,11 +805,11 @@ local components = {
   },
 }
 
-require('feline').setup({
-  components = components,
-  theme = custom_theme,
-  vi_mode_colors = vi_mode_colors,
-})
+-- require('feline').setup({
+--   components = components,
+--   theme = custom_theme,
+--   vi_mode_colors = vi_mode_colors,
+-- })
 
 require("neo-tree").setup({
   source_selector = {
@@ -816,8 +827,25 @@ vim.keymap.set("n", "[t", function()
 end, { desc = "Previous todo comment" })
 
 
+require("dapui").setup()
+local dap, dapui = require("dap"), require("dapui")
+dap.listeners.before.attach.dapui_config = function()
+  dapui.open()
+end
+dap.listeners.before.launch.dapui_config = function()
+  dapui.open()
+end
+dap.listeners.before.event_terminated.dapui_config = function()
+  dapui.close()
+end
+dap.listeners.before.event_exited.dapui_config = function()
+  dapui.close()
+end
+
+
 require('mason-nvim-dap').setup({
-  ensure_installed = { 'node2' },
+  automatic_installation = true,
+  ensure_installed = { 'node2', 'delve' },
   handlers = {
     function(config)
       -- all sources with no handler get passed here
