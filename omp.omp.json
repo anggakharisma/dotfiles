@@ -14,7 +14,10 @@
                 {
                     "foreground": "p:pink",
                     "style": "plain",
-                    "template": "[{{ .UserName }}@{{ .HostName }}] ",
+                    "powerline_symbol": "",
+                    "leading_diamond": "",
+                    "trailing_diamond": "",
+                    "template": "[{{ .UserName }}@{{ .HostName }}]",
                     "type": "session"
                 },
                 {
