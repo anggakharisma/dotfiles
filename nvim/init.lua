@@ -805,11 +805,11 @@ local components = {
   },
 }
 
--- require('feline').setup({
---   components = components,
---   theme = custom_theme,
---   vi_mode_colors = vi_mode_colors,
--- })
+require('feline').setup({
+  components = components,
+  theme = custom_theme,
+  vi_mode_colors = vi_mode_colors,
+})
 
 require("neo-tree").setup({
   source_selector = {

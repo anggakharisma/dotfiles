@@ -12,19 +12,21 @@
             "alignment": "left",
             "segments": [
                 {
-                    "foreground": "p:pink",
+                    "foreground": "#191725",
+                    "background": "p:pink",
                     "style": "plain",
                     "powerline_symbol": "",
+                    "leading_powerline_symbol": "",
                     "leading_diamond": "",
                     "trailing_diamond": "",
-                    "template": "[{{ .UserName }}@{{ .HostName }}]",
+                    "template": " {{ .UserName }}@{{ .HostName }} ",
                     "type": "session"
                 },
                 {
                     "foreground": "p:pink",
                     "properties": {
                         "folder_icon": "  ",
-                        "home_icon": "~",
+                        "home_icon": " ~",
                         "style": "unique"
                     },
                     "style": "plain",
