@@ -14,7 +14,7 @@
                 {
                     "foreground": "p:pink",
                     "style": "plain",
-                    "template": "{{ .UserName }}@{{ .HostName }} ",
+                    "template": "[{{ .UserName }}@{{ .HostName }}] ",
                     "type": "session"
                 },
                 {
@@ -30,7 +30,7 @@
                 },
                 {
                     "type": "git",
-                    "style": "plain",
+                    "style": "diamond",
                     "foreground": "p:pink",
                     "background_templates": [
                         "{{ if or (.Working.Changed) (.Staging.Changed) }}{{ end }}",
