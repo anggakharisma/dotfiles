@@ -57,7 +57,7 @@
                 {
                     "style": "plain",
                     "foreground": "p:pink",
-                    "template": "  ",
+                    "template": " ",
                     "type": "text"
                 }
             ],
