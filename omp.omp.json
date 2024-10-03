@@ -43,7 +43,7 @@
                         "{{ if gt .Ahead 0 }}{{ end }}",
                         "{{ if gt .Behind 0 }}{{ end }}"
                     ],
-                    "template": "{{ .UpstreamIcon }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}",
+                    "template": "{{ .UpstreamIcon }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
                     "properties": {
                         "fetch_status": true,
                         "fetch_upstream_icon": true,
@@ -57,7 +57,7 @@
                 {
                     "style": "plain",
                     "foreground": "p:pink",
-                    "template": " ",
+                    "template": "",
                     "type": "text"
                 }
             ],
