@@ -28,19 +28,19 @@ require("lazy").setup({
       },
     },
   },
-  "hrsh7th/cmp-vsnip",
   { "rose-pine/neovim",     name = "rose-pine" },
   "craftzdog/solarized-osaka.nvim",
   "hrsh7th/vim-vsnip",
   'norcalli/nvim-colorizer.lua',
-  "hrsh7th/cmp-nvim-lsp",
   "mfussenegger/nvim-dap",
   { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
   "jay-babu/mason-nvim-dap.nvim",
+  "hrsh7th/nvim-cmp",
+  "hrsh7th/cmp-nvim-lsp",
+  "hrsh7th/cmp-vsnip",
   "hrsh7th/cmp-buffer",
   "hrsh7th/cmp-path",
   "hrsh7th/cmp-cmdline",
-  "hrsh7th/nvim-cmp",
   'mfussenegger/nvim-jdtls',
   'onsails/lspkind.nvim',
   "ahmedkhalf/project.nvim",
@@ -325,8 +325,8 @@ cmp.setup.cmdline(':', {
 })
 
 
-local lspLists = { "tsserver", "rust_analyzer", "gopls", "lua_ls", "prismals", "emmet_ls", "cssls", "volar",
-  "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server" }
+local lspLists = { "ts_ls", "rust_analyzer", "gopls", "lua_ls", "prismals", "emmet_ls", "cssls", "volar",
+  "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server", "omnisharp" }
 
 -- mason config
 require('mason').setup({})
