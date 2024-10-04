@@ -5,15 +5,14 @@
         "closer": "p:os",
         "pink": "#F5BDE6",
         "lavender": "#B7BDF8",
-        "blue": "#8AADF4",
-        "primary": "#B7BDF8"
+        "blue": "#8AADF4"
     },
     "blocks": [
         {
             "alignment": "left",
             "segments": [
                 {
-                    "foreground": "p:lavender",
+                    "foreground": "p:blue",
                     "style": "plain",
                     "powerline_symbol": "",
                     "leading_powerline_symbol": "",
@@ -23,7 +22,7 @@
                     "type": "session"
                 },
                 {
-                    "foreground": "p:lavender",
+                    "foreground": "p:blue",
                     "properties": {
                         "folder_icon": "  ",
                         "home_icon": " ~",
@@ -36,7 +35,7 @@
                 {
                     "type": "git",
                     "style": "diamond",
-                    "foreground": "p:lavender",
+                    "foreground": "p:blue",
                     "background_templates": [
                         "{{ if or (.Working.Changed) (.Staging.Changed) }}{{ end }}",
                         "{{ if and (gt .Ahead 0) (gt .Behind 0) }}{{ end }}",
@@ -56,7 +55,7 @@
                 },
                 {
                     "style": "plain",
-                    "foreground": "p:lavender",
+                    "foreground": "p:blue",
                     "template": "",
                     "type": "text"
                 }
