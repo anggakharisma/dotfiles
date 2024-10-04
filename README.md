@@ -1,5 +1,5 @@
 # dotfiles
-![Project preview](./preview.jpeg)
+![Project preview](./preview.jpg)
 
 Theme: [Rose Pine](https://github.com/rose-pine)
 
