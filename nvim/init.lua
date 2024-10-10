@@ -10,7 +10,6 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-
 require("lazy").setup({
   "neovim/nvim-lspconfig",
   "ray-x/lsp_signature.nvim",
@@ -28,13 +27,50 @@ require("lazy").setup({
       },
     },
   },
-  { "rose-pine/neovim",     name = "rose-pine" },
+  { "rose-pine/neovim",         name = "rose-pine" },
   "craftzdog/solarized-osaka.nvim",
   "hrsh7th/vim-vsnip",
   'norcalli/nvim-colorizer.lua',
   "mfussenegger/nvim-dap",
-  { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
-  "jay-babu/mason-nvim-dap.nvim",
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+    opts = {},
+    config = function()
+      require("dapui").setup()
+      local dap, dapui = require("dap"), require("dapui")
+      dap.listeners.before.attach.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated.dapui_config = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited.dapui_config = function()
+        dapui.close()
+      end
+    end
+  },
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    opts = {},
+
+    config = function(_, opts)
+      require('mason-nvim-dap').setup({
+        automatic_installation = true,
+        ensure_installed = { 'node2', 'delve' },
+        handlers = {
+          function(config)
+            -- all sources with no handler get passed here
+            -- Keep original functionality
+            require('mason-nvim-dap').default_setup(config)
+          end,
+        },
+      })
+    end
+  },
   "hrsh7th/nvim-cmp",
   "hrsh7th/cmp-nvim-lsp",
   "hrsh7th/cmp-vsnip",
@@ -47,16 +83,25 @@ require("lazy").setup({
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {}
+    opts = {},
+    config = function(_, opts)
+      require('todo-comments').setup(opts)
+      vim.keymap.set("n", "]t", function()
+        require("todo-comments").jump_next()
+      end, { desc = "Next todo comment" })
+
+      vim.keymap.set("n", "[t", function()
+        require("todo-comments").jump_prev()
+      end, { desc = "Previous todo comment" })
+    end
   },
   {
     "folke/trouble.nvim",
-    opts = {}, -- for default options, refer to the configuration section for custom setup.
     cmd = "Trouble",
+    opts = {}, -- for default options, refer to the configuration section for custom setup.
   },
   { "catppuccin/nvim",          name = "catppuccin", priority = 1000 },
   { "ellisonleao/gruvbox.nvim", priority = 1000,     config = true,  opts = ... },
-
   "rebelot/kanagawa.nvim",
   "EdenEast/nightfox.nvim",
   {
@@ -66,17 +111,12 @@ require("lazy").setup({
     opts = {},
 
   },
-
-  -- default
-  {
-    'freddiehaddad/feline.nvim',
-    opts = {},
-    config = function(_, opts)
-    end
-  },
   "nvim-lua/plenary.nvim",
   "williamboman/mason-lspconfig.nvim",
-  "nvim-telescope/telescope.nvim",
+  {
+    'nvim-telescope/telescope.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+  },
   "BurntSushi/ripgrep",
   "williamboman/mason.nvim",
   "nvimdev/lspsaga.nvim",
@@ -111,7 +151,10 @@ require("lazy").setup({
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
       -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-    }
+    },
+    config = function(_, opts)
+      require("neo-tree").setup(opts)
+    end
   },
 
   { 'akinsho/git-conflict.nvim', version = "*", config = true },
@@ -139,7 +182,7 @@ require("lazy").setup({
   -- },
 });
 
--- editor config
+-- editor/general config
 vim.g.mapleader = ','
 vim.o.background = 'dark'
 
@@ -187,6 +230,7 @@ vim.cmd('hi Normal guibg=none')
 vim.cmd('hi NonText guibg=none')
 vim.cmd('hi SignColumn guibg=NONE')
 vim.cmd('set signcolumn=yes:1');
+vim.cmd("let &fcs='eob: '")
 
 -- editor highlight config
 vim.api.nvim_set_hl(0, 'LineNrAbove', { fg = 'grey', bold = false })
@@ -434,33 +478,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- trouble
-vim.keymap.set('n', '<leader>tx', "<cmd>Trouble diagnostics toggle<cr>", {})
-vim.keymap.set('n', '<leader>tX', "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", {})
-vim.keymap.set('n', '<leader>ts', "<cmd>Trouble symbols toggle focus=false<cr>", {})
-vim.keymap.set('n', '<leader>tl', "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", {})
-vim.keymap.set('n', '<leader>tL', "<cd>Trouble loclist toggle<cr>", {})
-vim.keymap.set('n', '<leader>tQ', "<cmd>Trouble qflist toggle<cr>", {})
-
--- telescope config
-require('telescope').setup {
-  defaults = {
-    file_ignore_patterns = {
-      "node_modules", "vendor", ".git"
-    }
-  },
-  pickers = {
-    find_files = {
-      hidden = true
-    }
-  }
-}
-local builtin = require('telescope.builtin');
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-
 -- escape on normal mode
 map('i', 'kk', '<Esc>')
 -- Move around splits
@@ -473,17 +490,16 @@ map('n', '<leader>s', ':w<CR>')
 map('n', '<leader>w', ':w<CR>')
 map('n', '<C-q>', ':q!<CR>')
 
-local signs = {
-  Error = " ",
-  Warn = " ",
-  Hint = "",
-  Info = " ",
-}
-
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "", -- or other icon of your choice here, this is just what my config has:
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.HINT] = "󰌵",
+    },
+  },
+})
 
 require('gitsigns').setup {
   signs                        = {
@@ -578,13 +594,7 @@ require 'project_nvim'.setup({
   manual_mode = true
 })
 
-vim.cmd("let &fcs='eob: '")
-
-map('n', '<leader>nn', ":Neotree toggle<cr>")
-map('n', '<C-n>', ":Neotree toggle<cr>")
-
 require 'nvim-treesitter.configs'.setup {
-
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
   auto_install = true,
@@ -596,283 +606,22 @@ require 'nvim-treesitter.configs'.setup {
   },
 }
 
+-- keymaps
 vim.cmd("nnoremap <leader>oo <Cmd>lua require'jdtls'.organize_imports()<CR>")
+map('n', '<leader>nn', ":Neotree toggle<cr>")
+map('n', '<C-n>', ":Neotree toggle<cr>")
 
+-- trouble
+vim.keymap.set('n', '<leader>tx', "<cmd>Trouble diagnostics toggle<cr>", {})
+vim.keymap.set('n', '<leader>tX', "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", {})
+vim.keymap.set('n', '<leader>ts', "<cmd>Trouble symbols toggle focus=false<cr>", {})
+vim.keymap.set('n', '<leader>tl', "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", {})
+vim.keymap.set('n', '<leader>tL', "<cd>Trouble loclist toggle<cr>", {})
+vim.keymap.set('n', '<leader>tQ', "<cmd>Trouble qflist toggle<cr>", {})
 
-local line_ok, feline = pcall(require, "feline")
-if not line_ok then
-  return
-end
-
-local custom_theme = {
-  fg = "fg",
-  bg = "bg",
-  green = "lightgreen",
-  yellow = "yellow",
-  purple = "purple",
-  orange = "#d19a66",
-  peanut = "#f6d5a4",
-  red = "#e06c75",
-  aqua = "#61afef",
-  darkblue = "#1b1b27",
-  dark_red = "#f75f5f",
-}
-
-local vi_mode_colors = {
-  NORMAL = "green",
-  OP = "green",
-  INSERT = "yellow",
-  VISUAL = "purple",
-  LINES = "orange",
-  BLOCK = "dark_red",
-  REPLACE = "red",
-  COMMAND = "aqua",
-}
-
-local c = {
-  vim_mode = {
-    provider = {
-      name = "vi_mode",
-      opts = {
-        bg = "black",
-        show_mode_name = true,
-        padding = "center", -- Uncomment for extra padding.
-      },
-    },
-    hl = function()
-      return {
-        fg = 'black',
-        bg = require("feline.providers.vi_mode").get_mode_color(),
-        style = "bold",
-        name = "NeovimModeHLColor",
-      }
-    end,
-    left_sep = "block",
-    right_sep = "slant_right_2",
-  },
-  gitBranch = {
-    provider = "git_branch",
-    hl = {
-      fg = "lightblue",
-      bg = "darkblue",
-      style = "bold",
-    },
-    left_sep = "block",
-    right_sep = "block",
-  },
-  gitDiffAdded = {
-    provider = "git_diff_added",
-    hl = {
-      fg = "green",
-      bg = "darkblue",
-    },
-    left_sep = "block",
-    right_sep = "block",
-  },
-  gitDiffRemoved = {
-    provider = "git_diff_removed",
-    hl = {
-      fg = "red",
-      bg = "darkblue",
-    },
-    left_sep = "block",
-    right_sep = "block",
-  },
-  gitDiffChanged = {
-    provider = "git_diff_changed",
-    hl = {
-      fg = "fg",
-      bg = "darkblue",
-    },
-    left_sep = "block",
-    right_sep = "right_filled",
-  },
-  separator = {
-    provider = "",
-  },
-  fileinfo = {
-    -- provider = {
-    --   name = "file_info",
-    --   opts = {
-    --     type = "short",
-    --   },
-    -- },
-    -- hl = {
-    --   style = "bold",
-    -- },
-    -- left_sep = " ",
-    -- right_sep = " ",
-  },
-  diagnostic_errors = {
-    provider = "diagnostic_errors",
-    hl = {
-      fg = "red",
-    },
-  },
-  diagnostic_warnings = {
-    provider = "diagnostic_warnings",
-    hl = {
-      fg = "yellow",
-    },
-  },
-  diagnostic_hints = {
-    provider = "diagnostic_hints",
-    hl = {
-      fg = "aqua",
-    },
-  },
-  diagnostic_info = {
-    provider = "diagnostic_info",
-  },
-  lsp_client_names = {
-    provider = "lsp_client_names",
-    hl = {
-      fg = "purple",
-      bg = "darkblue",
-      style = "bold",
-    },
-    left_sep = "left_filled",
-    right_sep = "block",
-  },
-  file_type = {
-    provider = {
-      name = "file_type",
-      opts = {
-        filetype_icon = true,
-        case = "titlecase",
-      },
-    },
-    hl = {
-      fg = "red",
-      bg = "darkblue",
-      style = "bold",
-    },
-    left_sep = "block",
-    right_sep = "block",
-  },
-  file_encoding = {
-    provider = "file_encoding",
-    hl = {
-      fg = "orange",
-      bg = "darkblue",
-      style = "italic",
-    },
-    left_sep = "block",
-    right_sep = "block",
-  },
-  position = {
-    provider = "position",
-    hl = {
-      fg = "green",
-      bg = "darkblue",
-      style = "bold",
-    },
-    left_sep = "block",
-    right_sep = "block",
-  },
-  line_percentage = {
-    provider = "line_percentage",
-    hl = {
-      fg = "aqua",
-      bg = "darkblue",
-      style = "bold",
-    },
-    left_sep = "block",
-    right_sep = "block",
-  },
-  scroll_bar = {
-    provider = "scroll_bar",
-    hl = {
-      fg = "lightblue",
-      style = "bold",
-    },
-  },
-}
-
-local left = {
-  c.vim_mode,
-  c.gitBranch,
-  c.gitDiffAdded,
-  c.gitDiffRemoved,
-  c.gitDiffChanged,
-  c.separator,
-}
-
-local middle = {
-  c.fileinfo,
-  c.diagnostic_errors,
-  c.diagnostic_warnings,
-  c.diagnostic_info,
-  c.diagnostic_hints,
-}
-
-local right = {
-  c.file_type,
-  c.file_encoding,
-  c.position,
-  c.line_percentage,
-  c.scroll_bar,
-}
-
-local components = {
-  active = {
-    left,
-    middle,
-    right,
-  },
-  inactive = {
-    left,
-    middle,
-    right,
-  },
-}
-
-require('feline').setup({
-  components = components,
-  theme = custom_theme,
-  vi_mode_colors = vi_mode_colors,
-})
-
-require("neo-tree").setup({
-  source_selector = {
-    winbar = false,
-    statusline = false
-  }
-})
-
-vim.keymap.set("n", "]t", function()
-  require("todo-comments").jump_next()
-end, { desc = "Next todo comment" })
-
-vim.keymap.set("n", "[t", function()
-  require("todo-comments").jump_prev()
-end, { desc = "Previous todo comment" })
-
-
-require("dapui").setup()
-local dap, dapui = require("dap"), require("dapui")
-dap.listeners.before.attach.dapui_config = function()
-  dapui.open()
-end
-dap.listeners.before.launch.dapui_config = function()
-  dapui.open()
-end
-dap.listeners.before.event_terminated.dapui_config = function()
-  dapui.close()
-end
-dap.listeners.before.event_exited.dapui_config = function()
-  dapui.close()
-end
-
-
-require('mason-nvim-dap').setup({
-  automatic_installation = true,
-  ensure_installed = { 'node2', 'delve' },
-  handlers = {
-    function(config)
-      -- all sources with no handler get passed here
-      -- Keep original functionality
-      require('mason-nvim-dap').default_setup(config)
-    end,
-  },
-})
+-- telescope
+local builtin = require('telescope.builtin');
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>h', builtin.help_tags, {})
