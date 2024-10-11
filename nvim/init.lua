@@ -13,6 +13,15 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   "neovim/nvim-lspconfig",
   "ray-x/lsp_signature.nvim",
+  {
+    'echasnovski/mini.nvim',
+    version = false,
+    config = function(_, _)
+      require('mini.statusline').setup()
+      require('mini.icons').setup()
+      require('mini.ai').setup()
+    end
+  },
   event = "VeryLazy",
   opts = {},
   config = function(_, opts) require 'lsp_signature'.setup(opts) end,
@@ -30,7 +39,14 @@ require("lazy").setup({
   { "rose-pine/neovim",         name = "rose-pine" },
   "craftzdog/solarized-osaka.nvim",
   "hrsh7th/vim-vsnip",
-  'norcalli/nvim-colorizer.lua',
+  {
+    'norcalli/nvim-colorizer.lua',
+    opts = {},
+    config = function(_, opts)
+      vim.opt.termguicolors = true
+      require 'colorizer'.setup()
+    end
+  },
   "mfussenegger/nvim-dap",
   {
     "rcarriga/nvim-dap-ui",
@@ -56,15 +72,12 @@ require("lazy").setup({
   {
     "jay-babu/mason-nvim-dap.nvim",
     opts = {},
-
     config = function(_, opts)
       require('mason-nvim-dap').setup({
         automatic_installation = true,
         ensure_installed = { 'node2', 'delve' },
         handlers = {
           function(config)
-            -- all sources with no handler get passed here
-            -- Keep original functionality
             require('mason-nvim-dap').default_setup(config)
           end,
         },
@@ -589,7 +602,6 @@ vim.api.nvim_create_autocmd("WinLeave", {
   end,
 })
 
-require 'colorizer'.setup()
 require 'project_nvim'.setup({
   manual_mode = true
 })
