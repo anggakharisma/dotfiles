@@ -70,7 +70,7 @@
                 {
                     "style": "plain",
                     "foreground": "p:blue",
-                    "template": " > ",
+                    "template": " ",
                     "type": "text"
                 }
             ],
