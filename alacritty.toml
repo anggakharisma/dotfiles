@@ -1,0 +1,15 @@
+
+import = [
+    "~/.config/alacritty/themes/themes/rose-pine.toml"
+]
+
+[font]
+size = 14
+normal = { family = "JetBrainsMono NF" }
+
+[window]
+padding = { x = 8, y = 8 }
+startup_mode = "Maximized"
+
+[keyboard]
+bindings = [{ key = "F11", action = "ToggleFullScreen" }]
