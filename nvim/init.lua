@@ -415,14 +415,8 @@ cmp.setup.cmdline(':', {
 })
 
 
-<<<<<<< HEAD
 local lspLists = { "ts_ls", "rust_analyzer", "gopls", "lua_ls", "prismals", "emmet_ls", "cssls", "volar",
   "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server", "omnisharp", "denols", "html-lsp" }
-=======
-local lspLists = { "ts_ls", "rust_analyzer", "gopls", "prismals", "emmet_ls", "cssls", "volar",
-  "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server", "omnisharp",
-  "html", }
->>>>>>> ab1745c5225a32f0efa19bf80b0ad8f1b0cc5b39
 
 -- mason config
 require('mason').setup({})
