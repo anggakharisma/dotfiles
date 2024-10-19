@@ -139,7 +139,6 @@ require("lazy").setup({
     opts = {},
     config = function(_, opts)
       require("mason-conform").setup({
-        ignore_install = { 'prettier' } -- List of formatters to ignore during install
       })
     end
   },
