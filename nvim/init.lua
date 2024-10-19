@@ -132,6 +132,17 @@ require("lazy").setup({
   },
   "BurntSushi/ripgrep",
   "williamboman/mason.nvim",
+  "stevearc/conform.nvim",
+  {
+
+    "zapling/mason-conform.nvim",
+    opts = {},
+    config = function(_, opts)
+      require("mason-conform").setup({
+        ignore_install = { 'prettier' } -- List of formatters to ignore during install
+      })
+    end
+  },
   "nvimdev/lspsaga.nvim",
   {
     'windwp/nvim-autopairs',
@@ -405,7 +416,7 @@ cmp.setup.cmdline(':', {
 
 
 local lspLists = { "ts_ls", "rust_analyzer", "gopls", "lua_ls", "prismals", "emmet_ls", "cssls", "volar",
-  "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server", "omnisharp" }
+  "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server", "omnisharp", "denols", "html-lsp" }
 
 -- mason config
 require('mason').setup({})
@@ -474,6 +485,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '[d', '<cmd>Lspsaga diagnostic_jump_prev<CR>')
 
     vim.keymap.set('n', '<space>oo', organize_imports, opts)
+    vim.keymap.set('n', '<leader>oc', function()
+      vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+    end, opts)
+
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
     vim.keymap.set('n', '<space>k', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
