@@ -415,8 +415,14 @@ cmp.setup.cmdline(':', {
 })
 
 
+<<<<<<< HEAD
 local lspLists = { "ts_ls", "rust_analyzer", "gopls", "lua_ls", "prismals", "emmet_ls", "cssls", "volar",
   "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server", "omnisharp", "denols", "html-lsp" }
+=======
+local lspLists = { "ts_ls", "rust_analyzer", "gopls", "prismals", "emmet_ls", "cssls", "volar",
+  "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server", "omnisharp",
+  "html", }
+>>>>>>> ab1745c5225a32f0efa19bf80b0ad8f1b0cc5b39
 
 -- mason config
 require('mason').setup({})
@@ -424,15 +430,14 @@ require('mason-lspconfig').setup({
   ensure_installed = lspLists
 })
 
+-- table.insert(lspLists, "lua_ls")
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local on_attach = function(client, buffer)
   if client.resolved_capabilities ~= nil then
     client.resolved_capabilities.document_formatting = true
   end
-  -- if client.server_capabilities.inlayHintProvider then
-  -- vim.lsp.diagnostic.enable(buffer, true)
-  -- end
+  vim.lsp.inlay_hint.enable(true)
 end
 
 for _, server in ipairs(lspLists) do
@@ -441,6 +446,12 @@ for _, server in ipairs(lspLists) do
     on_attach = on_attach,
   }
 end
+
+-- lua
+require('lspconfig').lua_ls.setup {
+  capabilities = capabilities,
+  on_attach = on_attach,
+}
 
 require 'lspconfig'.stimulus_ls.setup {}
 
@@ -625,7 +636,9 @@ require 'nvim-treesitter.configs'.setup {
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
   auto_install = true,
-
+  ensure_installed = {
+    "typescript"
+  },
   ignore_install = {},
 
   highlight = {
