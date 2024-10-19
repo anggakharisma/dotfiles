@@ -209,8 +209,10 @@ require("lazy").setup({
 vim.g.mapleader = ','
 vim.o.background = 'dark'
 
-vim.cmd('set number relativenumber');
 vim.opt.nu = true
+vim.opt.rnu = true
+vim.g.have_nerd_font = true
+vim.opt.cursorline = true
 
 vim.opt.history = 500
 vim.opt.completeopt = "menu,menuone,noselect,noinsert"
@@ -218,14 +220,14 @@ vim.opt.swapfile = false
 
 vim.cmd('set expandtab tabstop=4 shiftwidth=4')
 vim.schedule(function()
-	vim.opt.clipboard = "unnamedplus"
+  vim.opt.clipboard = "unnamedplus"
 end)
 vim.cmd('set re=0')
 
 -- vim.cmd('set list')
 -- vim.cmd('set lcs+=space:·')
 
-vim.cmd('set undofile')
+vim.o.undofile = true
 vim.cmd('set undodir=~/.vim/undodir')
 vim.cmd('set textwidth=80')
 vim.cmd('set wrapmargin=80')
@@ -246,16 +248,19 @@ vim.opt.termguicolors = true
 -- vim.cmd.colorscheme 'terafox'
 -- vim.cmd.colorscheme 'sorbet'
 -- vim.cmd.colorscheme 'solarized-osaka'
-vim.cmd.colorscheme 'rose-pine'
 
-vim.cmd("set background=dark")
+vim.opt.background = "dark"
+vim.cmd.colorscheme 'rose-pine'
 vim.cmd("syntax enable")
 vim.cmd('au ColorScheme * hi Normal ctermbg=none guibg=none')
-vim.cmd('hi Normal guibg=none')
-vim.cmd('hi NonText guibg=none')
-vim.cmd('hi SignColumn guibg=NONE')
+
 vim.cmd('set signcolumn=yes:1');
 vim.cmd("let &fcs='eob: '")
+
+-- highlight general
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
+vim.api.nvim_set_hl(0, 'NonText', { bg = 'NONE' })
+vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
 
 -- editor highlight config
 vim.api.nvim_set_hl(0, 'LineNrAbove', { fg = 'grey', bold = false })
@@ -417,7 +422,8 @@ cmp.setup.cmdline(':', {
 
 
 local lspLists = { "ts_ls", "rust_analyzer", "gopls", "lua_ls", "prismals", "emmet_ls", "cssls", "volar",
-  "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server", "omnisharp", "denols", "html" }
+  "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server", "omnisharp",
+  "denols", "html" }
 
 -- mason config
 require('mason').setup({})
@@ -506,6 +512,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<space>rn', '<cmd>Lspsaga rename<CR>', opts)
     vim.keymap.set({ 'n', 'v' }, '<space>ca', '<cmd>Lspsaga code_action<CR>', opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<leader>fo', function(args)
+      require('conform').format()
+      vim.lsp.buf.format { async = true }
+    end, opts)
     vim.keymap.set('n', '<space>f', function()
       vim.lsp.buf.format { async = true }
     end, opts)
@@ -641,10 +651,22 @@ require 'nvim-treesitter.configs'.setup {
   },
 }
 
+-- Highlight when yanking (copying) text
+--  Try it with `yap` in normal mode
+--  See `:help vim.highlight.on_yank()`
+vim.api.nvim_create_autocmd("TextYankPost", {
+  desc = "Highlight when yanking (copying) text",
+  group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
+
 -- keymaps
 vim.cmd("nnoremap <leader>oo <Cmd>lua require'jdtls'.organize_imports()<CR>")
 map('n', '<leader>nn', ":Neotree toggle<cr>")
 map('n', '<C-n>', ":Neotree toggle<cr>")
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- trouble
 vim.keymap.set('n', '<leader>tx', "<cmd>Trouble diagnostics toggle<cr>", {})
