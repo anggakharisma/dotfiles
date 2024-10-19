@@ -44,7 +44,7 @@ require("lazy").setup({
     opts = {},
     config = function(_, opts)
       vim.opt.termguicolors = true
-      require 'colorizer'.setup()
+      require 'colorizer'.setup(opts)
     end
   },
   "mfussenegger/nvim-dap",
@@ -72,7 +72,7 @@ require("lazy").setup({
   {
     "jay-babu/mason-nvim-dap.nvim",
     opts = {},
-    config = function(_, opts)
+    config = function(_, _)
       require('mason-nvim-dap').setup({
         automatic_installation = true,
         ensure_installed = { 'node2', 'delve' },
@@ -416,7 +416,7 @@ cmp.setup.cmdline(':', {
 
 
 local lspLists = { "ts_ls", "rust_analyzer", "gopls", "lua_ls", "prismals", "emmet_ls", "cssls", "volar",
-  "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server", "omnisharp", "denols", "html-lsp" }
+  "intelephense", "tailwindcss", "dockerls", "yamlls", "clangd", "eslint", "jsonls", "jedi_language_server", "omnisharp", "denols", "html" }
 
 -- mason config
 require('mason').setup({})
