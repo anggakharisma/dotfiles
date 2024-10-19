@@ -218,7 +218,9 @@ vim.opt.completeopt = "menu,menuone,noselect,noinsert"
 vim.opt.swapfile = false
 
 vim.cmd('set expandtab tabstop=4 shiftwidth=4')
-vim.cmd('set clipboard+=unnamedplus')
+vim.schedule(function()
+	vim.opt.clipboard = "unnamedplus"
+end)
 vim.cmd('set re=0')
 
 -- vim.cmd('set list')
