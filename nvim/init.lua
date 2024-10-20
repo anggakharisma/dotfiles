@@ -132,14 +132,19 @@ require("lazy").setup({
   },
   "BurntSushi/ripgrep",
   "williamboman/mason.nvim",
-  "stevearc/conform.nvim",
+  {
+    "stevearc/conform.nvim",
+    opts = {},
+    config = function(_, opts)
+      require("conform").setup(opts)
+    end
+  },
   {
 
     "zapling/mason-conform.nvim",
     opts = {},
     config = function(_, opts)
-      require("mason-conform").setup({
-      })
+      require("mason-conform").setup(opts)
     end
   },
   "nvimdev/lspsaga.nvim",
@@ -147,8 +152,6 @@ require("lazy").setup({
     'windwp/nvim-autopairs',
     event = "InsertEnter",
     config = true
-    -- use opts = {} for passing setup options
-    -- this is equivalent to setup({}) function
   },
   "tpope/vim-fugitive",
   "tpope/vim-surround",
@@ -241,6 +244,7 @@ vim.cmd('set nofoldenable')
 vim.cmd('set foldlevel=2')
 
 -- color
+vim.opt.background = "dark"
 vim.opt.termguicolors = true
 -- vim.cmd.colorscheme "catppuccin-mocha"
 -- vim.cmd.colorscheme "tokyonight-night"
@@ -248,9 +252,8 @@ vim.opt.termguicolors = true
 -- vim.cmd.colorscheme 'terafox'
 -- vim.cmd.colorscheme 'sorbet'
 -- vim.cmd.colorscheme 'solarized-osaka'
-
-vim.opt.background = "dark"
 vim.cmd.colorscheme 'rose-pine'
+
 vim.cmd("syntax enable")
 vim.cmd('au ColorScheme * hi Normal ctermbg=none guibg=none')
 
@@ -267,7 +270,7 @@ vim.api.nvim_set_hl(0, 'LineNrAbove', { fg = 'grey', bold = false })
 vim.api.nvim_set_hl(0, 'LineNr', { fg = 'white', bold = true })
 vim.api.nvim_set_hl(0, 'LineNrBelow', { fg = 'grey', bold = false })
 
-vim.api.nvim_set_hl(0, 'Visual', { bg = '#454545', bold = false })
+-- vim.api.nvim_set_hl(0, 'Visual', { bg = '#454545', bold = false })
 vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none', bold = false })
 vim.api.nvim_set_hl(0, 'PmenuSel', { bg = '#1f44a7', bold = false })
 -- vim.api.nvim_set_hl(0, 'NeoTreeNormal', { bg = 'NONE', bold = false })
