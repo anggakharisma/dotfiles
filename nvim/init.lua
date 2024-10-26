@@ -212,8 +212,8 @@ require("lazy").setup({
 vim.g.mapleader = ','
 vim.o.background = 'dark'
 
-vim.opt.nu = true
-vim.opt.rnu = true
+vim.opt.nu = false
+vim.opt.rnu = false
 vim.g.have_nerd_font = true
 vim.opt.cursorline = true
 
@@ -266,9 +266,9 @@ vim.api.nvim_set_hl(0, 'NonText', { bg = 'NONE' })
 vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
 
 -- editor highlight config
-vim.api.nvim_set_hl(0, 'LineNrAbove', { fg = 'grey', bold = false })
-vim.api.nvim_set_hl(0, 'LineNr', { fg = 'white', bold = true })
-vim.api.nvim_set_hl(0, 'LineNrBelow', { fg = 'grey', bold = false })
+vim.api.nvim_set_hl(0, 'LineNrAbove', { fg='gray', bold=false })
+vim.api.nvim_set_hl(0, 'LineNr', { fg='NONE', bold=true })
+vim.api.nvim_set_hl(0, 'LineNrBelow', { fg='gray', bold=false })
 
 -- vim.api.nvim_set_hl(0, 'Visual', { bg = '#454545', bold = false })
 vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none', bold = false })
@@ -434,7 +434,6 @@ require('mason-lspconfig').setup({
   ensure_installed = lspLists
 })
 
--- table.insert(lspLists, "lua_ls")
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local on_attach = function(client, buffer)
@@ -666,6 +665,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- keymaps
+vim.keymap.set('t', '<Esc><Esc>', "<C-\\><C-n>", { silent = true })
 vim.cmd("nnoremap <leader>oo <Cmd>lua require'jdtls'.organize_imports()<CR>")
 map('n', '<leader>nn', ":Neotree toggle<cr>")
 map('n', '<C-n>', ":Neotree toggle<cr>")
@@ -679,7 +679,21 @@ vim.keymap.set('n', '<leader>tl', "<cmd>Trouble lsp toggle focus=false win.posit
 vim.keymap.set('n', '<leader>tL', "<cd>Trouble loclist toggle<cr>", {})
 vim.keymap.set('n', '<leader>tQ', "<cmd>Trouble qflist toggle<cr>", {})
 
+-- toggle number
+vim.keymap.set('n', '<leader>tn', function()
+  vim.opt.nu = not vim.opt.nu:get()
+  vim.opt.rnu = not vim.opt.rnu:get()
+end)
+
 -- telescope
+require('telescope').setup {
+  defaults = {
+    file_ignore_patterns = {
+      "node_modules",
+      "vendor"
+    }
+  }
+}
 local builtin = require('telescope.builtin');
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
