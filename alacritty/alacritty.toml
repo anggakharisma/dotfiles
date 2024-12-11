@@ -1,13 +1,15 @@
+
+[general]
 import = [
     "~/.config/alacritty/themes/themes/rose_pine.toml"
 ]
 
 [font]
-size = 14
+size = 12
 normal = { family = "JetBrainsMono NF" }
 
 [window]
-padding = { x = 8, y = 8 }
+padding = { x = 4, y = 4 }
 startup_mode = "Maximized"
 
 [keyboard]
