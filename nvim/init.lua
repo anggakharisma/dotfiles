@@ -678,6 +678,8 @@ vim.keymap.set('n', '<leader>ts', "<cmd>Trouble symbols toggle focus=false<cr>",
 vim.keymap.set('n', '<leader>tl', "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", {})
 vim.keymap.set('n', '<leader>tL', "<cd>Trouble loclist toggle<cr>", {})
 vim.keymap.set('n', '<leader>tQ', "<cmd>Trouble qflist toggle<cr>", {})
+vim.keymap.set('n', '<leader>tr', "<cmd>TodoTrouble<cr>", {})
+vim.keymap.set('n', '<leader>tp', "<cmd>TodoTelescope<cr>", {})
 
 -- toggle number
 vim.keymap.set('n', '<leader>tn', function()
