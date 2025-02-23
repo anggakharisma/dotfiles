@@ -1,0 +1,37 @@
+theme = "solarized_dark"
+
+[editor]
+line-number = "relative"
+mouse = false
+cursorline = true
+true-color = true
+popup-border = "all"
+
+[editor.statusline]
+left = ["mode", "spinner"]
+center = ["file-name"]
+right = ["diagnostics", "selections", "position", "file-encoding", "file-line-ending", "file-type"]
+separator = "slanted"
+mode.normal = "N"
+mode.insert = "I"
+mode.select = "S"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+[editor.soft-wrap]
+enable = true
+max-wrap = 25
+max-indent-retain = 0
+wrap-indicator = ""
+
+[keys.normal]
+space =  { "=" = ":format"}
+
+[keys.insert]
+j = { k = "normal_mode" }
