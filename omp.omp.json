@@ -1,7 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "palette": {
-    "blue": "#8AADF4",
+    "blue": "#2075C6",
+    "white": "#FFFFFF",
     "closer": "p:os",
     "lavender": "#B7BDF8",
     "os": "#ACB0BE",
@@ -17,8 +18,8 @@
             "cache_duration": "none"
           },
           "template": " {{.Icon}} ",
-          "foreground": "#000000",
-          "background": "#eb6f92",
+          "foreground": "#FFFFFF",
+          "background": "p:blue",
           "type": "os",
           "style": "powerline"
         },
@@ -26,19 +27,8 @@
           "properties": {
             "cache_duration": "none"
           },
-          "template": ".",
-          "foreground": "yellow",
-          "powerline_symbol": "\ue0b0",
-          "background": "yellow",
-          "type": "text",
-          "style": "powerline"
-        },
-        {
-          "properties": {
-            "cache_duration": "none"
-          },
-          "template": " {{ .UserName }}@{{ .HostName }} ",
-          "foreground": "#000000",
+          "template": " {{ .UserName }} ",
+          "foreground": "#ffffff",
           "powerline_symbol": "\ue0b0",
           "background": "p:blue",
           "type": "session",

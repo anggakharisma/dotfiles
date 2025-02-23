@@ -216,6 +216,7 @@ vim.opt.nu = false
 vim.opt.rnu = false
 vim.g.have_nerd_font = true
 vim.opt.cursorline = true
+vim.opt.ignorecase = true
 
 vim.opt.history = 500
 vim.opt.completeopt = "menu,menuone,noselect,noinsert"
@@ -249,9 +250,9 @@ vim.opt.termguicolors = true
 -- vim.cmd.colorscheme "catppuccin-mocha"
 -- vim.cmd.colorscheme "tokyonight-night"
 -- vim.cmd.colorscheme "gruvbox"
-vim.cmd.colorscheme 'terafox'
+-- vim.cmd.colorscheme 'terafox'
 -- vim.cmd.colorscheme 'sorbet'
--- vim.cmd.colorscheme 'solarized-osaka'
+vim.cmd.colorscheme 'solarized-osaka'
 -- vim.cmd.colorscheme 'rose-pine-moon'
 
 vim.cmd("syntax enable")
@@ -266,9 +267,9 @@ vim.api.nvim_set_hl(0, 'NonText', { bg = 'NONE' })
 vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'NONE' })
 
 -- editor highlight config
-vim.api.nvim_set_hl(0, 'LineNrAbove', { fg='gray', bold=false })
-vim.api.nvim_set_hl(0, 'LineNr', { fg='NONE', bold=true })
-vim.api.nvim_set_hl(0, 'LineNrBelow', { fg='gray', bold=false })
+vim.api.nvim_set_hl(0, 'LineNrAbove', { fg = 'gray', bold = false })
+vim.api.nvim_set_hl(0, 'LineNr', { fg = 'NONE', bold = true })
+vim.api.nvim_set_hl(0, 'LineNrBelow', { fg = 'gray', bold = false })
 
 -- vim.api.nvim_set_hl(0, 'Visual', { bg = '#454545', bold = false })
 vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none', bold = false })
@@ -643,6 +644,7 @@ require 'nvim-treesitter.configs'.setup {
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
   auto_install = true,
+  modules = {},
   ensure_installed = {
     "typescript"
   },
