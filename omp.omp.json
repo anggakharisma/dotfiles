@@ -19,7 +19,7 @@
           },
           "template": " {{.Icon}} ",
           "foreground": "#FFFFFF",
-          "background": "p:blue",
+          "background": "blue",
           "type": "os",
           "style": "powerline"
         },
@@ -30,7 +30,7 @@
           "template": " {{ .UserName }} ",
           "foreground": "#ffffff",
           "powerline_symbol": "\ue0b0",
-          "background": "p:blue",
+          "background": "blue",
           "type": "session",
           "style": "powerline"
         },
@@ -42,7 +42,7 @@
             "home_icon": "\ueb06 ",
             "style": "agnoster_short"
           },
-          "foreground": "p:blue",
+          "foreground": "blue",
           "powerline_symbol": "\ue0b0",
           "type": "path",
           "style": "plain"
@@ -59,7 +59,7 @@
             "source": "cli"
           },
           "template": "{{ .UpstreamIcon }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf0c7 {{ .StashCount }}{{ end }} ",
-          "foreground": "p:blue",
+          "foreground": "blue",
           "type": "git",
           "style": "powerline",
           "background_templates": [
@@ -74,7 +74,7 @@
             "cache_duration": "none"
           },
           "template": "\uebca ",
-          "foreground": "p:blue",
+          "foreground": "blue",
           "type": "text",
           "style": "plain"
         }
