@@ -254,7 +254,8 @@ vim.opt.termguicolors = true
 -- vim.cmd.colorscheme 'sorbet'
 -- vim.cmd.colorscheme 'solarized-osaka'
 -- vim.cmd.colorscheme 'rose-pine-moon'
-vim.cmd.colorscheme 'kanagawa'
+-- vim.cmd.colorscheme 'kanagawa'
+vim.cmd.colorscheme 'carbonfox'
 
 vim.cmd("syntax enable")
 vim.cmd('au ColorScheme * hi Normal ctermbg=none guibg=none')
