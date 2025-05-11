@@ -23,14 +23,14 @@ vim.opt.ignorecase = true
 vim.opt.history = 500
 vim.opt.completeopt = "menu,menuone,noselect,noinsert"
 vim.opt.swapfile = false
-vim.opt.termguicolors = true  -- Important for colorizer and other color-related plugins
+vim.opt.termguicolors = true -- Important for colorizer and other color-related plugins
 vim.opt.clipboard = "unnamedplus"
 
 -- Tab and indentation settings
 vim.opt.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
-vim.cmd('set re=0')  -- Use new regexp engine
+vim.cmd('set re=0') -- Use new regexp engine
 
 -- Undo settings
 vim.o.undofile = true
@@ -101,10 +101,10 @@ require("lazy").setup({
   },
 
   -- Color schemes
-  { "rose-pine/neovim", name = "rose-pine" },
+  { "rose-pine/neovim",              name = "rose-pine" },
   { "craftzdog/solarized-osaka.nvim" },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-  { "ellisonleao/gruvbox.nvim", priority = 1000, config = true },
+  { "catppuccin/nvim",               name = "catppuccin", priority = 1000 },
+  { "ellisonleao/gruvbox.nvim",      priority = 1000,     config = true },
   { "rebelot/kanagawa.nvim" },
   { "EdenEast/nightfox.nvim" },
   {
@@ -122,16 +122,16 @@ require("lazy").setup({
     'norcalli/nvim-colorizer.lua',
     config = function()
       require('colorizer').setup({
-        '*', -- Highlight all files
+        '*',             -- Highlight all files
       }, {
-        RGB = true, -- #RGB hex codes
-        RRGGBB = true, -- #RRGGBB hex codes
-        names = true, -- "Name" codes like Blue
+        RGB = true,      -- #RGB hex codes
+        RRGGBB = true,   -- #RRGGBB hex codes
+        names = true,    -- "Name" codes like Blue
         RRGGBBAA = true, -- #RRGGBBAA hex codes
-        rgb_fn = true, -- CSS rgb() and rgba() functions
-        hsl_fn = true, -- CSS hsl() and hsla() functions
-        css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-        css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        rgb_fn = true,   -- CSS rgb() and rgba() functions
+        hsl_fn = true,   -- CSS hsl() and hsla() functions
+        css = true,      -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = true,   -- Enable all CSS *functions*: rgb_fn, hsl_fn
       })
       -- Autocommand to enable colorizer on FileType event
       vim.cmd([[
@@ -323,7 +323,7 @@ require("lazy").setup({
       }
     end
   },
-  { "akinsho/git-conflict.nvim", version = "*", config = true },
+  { "akinsho/git-conflict.nvim",              version = "*", config = true },
 
   -- Treesitter
   {
@@ -332,7 +332,7 @@ require("lazy").setup({
       require('nvim-treesitter.configs').setup {
         sync_install = false,
         auto_install = true,
-        ensure_installed = {"typescript"},
+        ensure_installed = { "typescript" },
         highlight = { enable = true },
       }
     end
@@ -485,7 +485,7 @@ cmp.setup.filetype('gitcommit', {
 -- Use buffer source for `/` and `?`
 cmp.setup.cmdline({ '/', '?' }, {
   mapping = cmp.mapping.preset.cmdline(),
-  sources = {{ name = 'buffer' }}
+  sources = { { name = 'buffer' } }
 })
 
 -- Use cmdline & path source for ':'
@@ -503,13 +503,14 @@ local lspLists = {
   "ts_ls", "rust_analyzer", "gopls", "lua_ls", "prismals",
   "emmet_ls", "cssls", "volar", "intelephense", "tailwindcss",
   "dockerls", "yamlls", "clangd", "eslint", "jsonls",
-  "jedi_language_server", "omnisharp", "html"
+  "jedi_language_server", "omnisharp", "html", "volar", "svelte", "astro"
 }
 
 -- Mason setup
 require('mason').setup()
 require('mason-lspconfig').setup({
-  ensure_installed = lspLists
+  ensure_installed = lspLists,
+  automatic_installation = true
 })
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -527,6 +528,26 @@ for _, server in ipairs(lspLists) do
     on_attach = on_attach,
   }
 end
+
+local lspconfig = require('lspconfig')
+
+local mason_registry = require('mason-registry')
+local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
+lspconfig.ts_ls.setup {
+  init_options = {
+    plugins = {
+      {
+        name = '@vue/typescript-plugin',
+        location = vue_language_server_path,
+        languages = { 'vue' },
+      },
+    },
+  },
+  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+}
+
+-- No need to set `hybridMode` to `true` as it's the default value
+lspconfig.volar.setup {}
 
 -- Additional LSP setups
 require('lspconfig').lua_ls.setup {
