@@ -1,0 +1,46 @@
+# Ghostty Terminal Theme
+# Based on the provided color scheme:
+# $bg-color            #0f0f14
+# $inactive-bg-color   #171723
+# $text-color          #e3e3e5
+# $inactive-text-color #969696
+# $urgent-bg-color     #7B2CBF
+# $accent-color        #5E17EB
+# $indicator-color     #9D4EDD
+
+# User requested settings
+font-size = 13
+keybind = f11=toggle_fullscreen
+background-opacity = 0.985
+
+# Font configuration
+font-family = "JetBrains Mono"
+
+# Base colors
+background = "#0f0f14"
+foreground = "#e3e3e5"
+selection-background = "#5E17EB"
+selection-foreground = "#e3e3e5"
+cursor-color = "#9D4EDD"
+cursor-text = "#0f0f14"
+
+# Normal colors
+palette = 0=#171723
+palette = 1=#EE4B55
+palette = 2=#7DCF7B
+palette = 3=#FCEE54
+palette = 4=#5E17EB
+palette = 5=#9D4EDD
+palette = 6=#7B2CBF
+palette = 7=#e3e3e5
+
+# Bright colors
+palette = 8=#969696
+palette = 9=#FF6B64
+palette = 10=#9EE98B
+palette = 11=#FFFB8F
+palette = 12=#7C3AFF
+palette = 13=#BE74FF
+palette = 14=#9D4EDD
+palette = 15=#ffffff
+

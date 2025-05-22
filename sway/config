@@ -1,0 +1,225 @@
+# Default terminal
+set $term ghostty
+set $file dolphin
+
+# Application launcher
+set $menu wofi --show drun --style ~/.config/wofi/style.css
+
+# Use Windows/Super key as modifier
+set $mod Mod4
+
+### Color Scheme (Space-themed Dark Purple) ###
+set $bg-color            #0f0f14
+set $inactive-bg-color   #171723
+set $text-color          #ffffff
+set $inactive-text-color #969696
+set $urgent-bg-color     #7B2CBF
+set $accent-color        #2d0975
+set $indicator-color     #9D4EDD
+
+# Window Colors
+client.focused          $accent-color $accent-color $text-color $indicator-color $accent-color
+client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color $inactive-bg-color $inactive-bg-color
+client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color $inactive-bg-color $inactive-bg-color
+client.urgent           $urgent-bg-color $urgent-bg-color $text-color $indicator-color $urgent-bg-color
+
+# Background - solid color for now
+output * bg /home/dev/Downloads/ss2.png fit
+# For image background, use: output * bg /path/to/space-wallpaper.jpg fill
+
+# Font for window titles
+font pango:JetBrains Mono 9
+
+### Window Layout ###
+# Default layout
+workspace_layout default
+
+# Border style and gaps
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders smart
+gaps inner 2
+
+### Key Bindings ###
+# Basic Commands
+bindsym $mod+Return exec $term
+bindsym $mod+d exec $menu
+bindsym $mod+e exec $file
+bindsym $mod+Shift+q kill
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit Sway?' -B 'Yes' 'swaymsg exit'
+
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Vim-style Window Navigation
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Vim-style Window Movement
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Arrow keys as alternatives
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Window Splitting (Vim-inspired)
+bindsym $mod+backslash split h  # Like Vim's Ctrl+w+v
+bindsym $mod+minus split v      # Like Vim's Ctrl+w+s
+
+# Layout Management
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+p layout toggle split
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+# Focus Control
+bindsym $mod+a focus parent
+bindsym $mod+z focus child
+
+# Workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+# Move container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# Resize mode with Vim keys
+mode "resize" {
+    # Vim-style resize
+    bindsym h resize shrink width 10px
+    bindsym j resize grow height 10px
+    bindsym k resize shrink height 10px
+    bindsym l resize grow width 10px
+    
+    # Arrow keys as alternatives
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+    
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Marks (like Vim marks)
+bindsym $mod+m exec i3-input -F 'mark %s' -P 'Mark: '
+bindsym $mod+g exec i3-input -F '[con_mark="%s"] focus' -P 'Go to mark: '
+
+# Scratchpad (like Vim's hidden buffers)
+bindsym $mod+Shift+grave move scratchpad
+bindsym $mod+grave scratchpad show
+
+# Toggle between workspaces (like Vim's Ctrl+^)
+bindsym $mod+Tab workspace back_and_forth
+bindsym $mod+Shift+Tab move container to workspace back_and_forth
+
+# Command mode (like Vim's command line)
+mode "command" {
+    bindsym Return exec swaymsg $(cat /tmp/sway_command_mode) && mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+semicolon exec "echo '' > /tmp/sway_command_mode" && mode "command"
+
+# Quick focus cycling between windows (like Vim's gt/gT)
+bindsym Alt+Tab focus next sibling
+bindsym Alt+Shift+Tab focus prev sibling
+
+# Jump to urgent window (like Vim's quickfix commands)
+bindsym $mod+u [urgent=latest] focus
+
+### Media Keys ###
+# Volume control
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Brightness
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+### Autostart Applications ###
+# Start Waybar
+ exec mako
+ exec_always flameshot
+ exec_always --no-startup-id waybar
+
+# Authentication agent
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Screen locking
+set $lock swaylock -f -c 000000
+exec sway-audio-idle-inhibit
+
+exec swayidle -w \
+    timeout 300 '$lock' \
+    timeout 600 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    before-sleep '$lock'
+
+# Lock screen shortcut
+bindsym $mod+Ctrl+l exec $lock
+
+# input "type:keyboard" {
+#     xkb_layout us
+#     xkb_options caps:escape
+#     repeat_delay 300
+#     repeat_rate 30
+# }
+
+input "type:touchpad" {
+    tap enabled
+    natural_scroll enabled
+    dwt enabled  # disable while typing
+    middle_emulation enabled
+}
+
+### Output Configuration ###
+# Example for monitor setup
+# output HDMI-A-1 resolution 1920x1080 position 0,0
+# output eDP-1 resolution 1920x1080 position 1920,0
+
+output DP-1 resolution 1920x1080@144Hz
+
+### Include Additional Config Files ###
+include /etc/sway/config.d/*
