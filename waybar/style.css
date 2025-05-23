@@ -122,7 +122,11 @@ window#waybar.hidden {
 }
 
 #window {
-    margin: 0 4px;
+    padding: 0 12px;
+    background-color: rgba(94, 23, 235, 0.4);
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
 }
 
 #clock {
