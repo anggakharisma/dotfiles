@@ -1,0 +1,91 @@
+{
+    "layer": "bottom",
+    "position": "bottom",
+    "height": 28,
+    "spacing": 4,
+    "margin-top": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    
+    "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
+    "modules-center": ["clock"],
+    "modules-right": ["pulseaudio", "network", "cpu", "memory", "tray"],
+    
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "1",
+            "2": "2", 
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "0",
+        }
+    },
+    
+    "sway/window": {
+        "format": "{}",
+        "max-length": 50
+    },
+    
+    "clock": {
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "format": " {:%Y-%m-%d %H:%M}",
+        "format-alt": " {:%Y-%m-%d}"
+    },
+    
+    "cpu": {
+        "format": "󰻠 {usage}%",
+        "tooltip": false
+    },
+    
+    "memory": {
+        "format": "󰍛 {}%"
+    },
+    
+    "temperature": {
+        "critical-threshold": 80,
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": ["", "", ""]
+    },
+    
+    "network": {
+        "format-wifi": "  {essid}",
+        "format-ethernet": " {ipaddr}/{cidr}",
+        "format-linked": " (No IP)",
+        "format-disconnected": "⚠ Disconnected",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    
+    "pulseaudio": {
+        "format": " {volume}%",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-bluetooth-muted": "󰂲 {icon}",
+        "format-muted": "󰖁",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "scroll-step": 1,
+        "on-click": "~/.config/waybar/scripts/audio-selector.sh",
+        "on-click-right": "pavucontrol",
+        "tooltip": true,
+        "tooltip-format": "Output: {desc}\nVolume: {volume}%"
+    },
+    
+    "tray": {
+        "icon-size": 16,
+        "spacing": 10
+    }
+}

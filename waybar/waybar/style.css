@@ -1,0 +1,136 @@
+* {
+    font-family: "JetBrains Mono", "Font Awesome 6 Free";
+    font-size: 14px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(15, 15, 20, 0.9);
+    border-radius: 10px;
+    color: #e3e3e5;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+#workspaces button {
+    padding: 0 4px;
+    background-color: transparent;
+    color: #e3e3e5;
+    border-radius: 0;
+    border-bottom: 2px solid transparent;
+}
+
+#workspaces button:hover {
+    background: rgba(94, 23, 235, 0.2);
+    box-shadow: inherit;
+}
+
+#workspaces button.focused {
+    background-color: rgba(94, 23, 235, 0.4);
+    border-bottom: 3px solid #9D4EDD;
+    font-weight: bold;
+}
+
+#workspaces button.urgent {
+    background-color: #7B2CBF;
+}
+
+#mode {
+    background-color: #5E17EB;
+    border-radius: 6px;
+    padding: 0 4px;
+    margin: 0 2px;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#network,
+#pulseaudio,
+#tray,
+#mode {
+    padding: 0 12px;
+    color: #e3e3e5;
+    margin: 0 4px;
+    border-radius: 6px;
+}
+
+#battery.charging, #battery.plugged {
+    color: #5E17EB;
+    background-color: rgba(94, 23, 235, 0.15);
+}
+
+#battery.critical:not(.charging) {
+    background-color: #7B2CBF;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+#cpu {
+    background-color: rgba(94, 23, 235, 0.15);
+    color: #9D4EDD;
+}
+
+#memory {
+    background-color: rgba(94, 23, 235, 0.15);
+    color: #7B2CBF;
+}
+
+#network {
+    background-color: rgba(94, 23, 235, 0.15);
+    color: #5E17EB;
+}
+
+#network.disconnected {
+    background-color: #7B2CBF;
+}
+
+#pulseaudio {
+    background-color: rgba(94, 23, 235, 0.15);
+    color: #9D4EDD;
+}
+
+#temperature {
+    background-color: rgba(94, 23, 235, 0.15);
+    color: #5E17EB;
+}
+
+#temperature.critical {
+    background-color: #7B2CBF;
+}
+
+#tray {
+    background-color: rgba(15, 15, 20, 0.2);
+}
+
+#window {
+    padding: 0 12px;
+    background-color: rgba(94, 23, 235, 0.4);
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+#clock {
+    background-color: rgba(94, 23, 235, 0.15);
+    color: #9D4EDD;
+    font-weight: bold;
+}

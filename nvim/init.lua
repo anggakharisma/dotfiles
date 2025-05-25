@@ -60,8 +60,6 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = {
       "ray-x/lsp_signature.nvim",
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "onsails/lspkind.nvim",
       "nvimdev/lspsaga.nvim",
@@ -157,18 +155,6 @@ require("lazy").setup({
       dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
     end
   },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    config = function()
-      require('mason-nvim-dap').setup({
-        automatic_installation = true,
-        ensure_installed = { 'node2', 'delve' },
-        handlers = {
-          function(config) require('mason-nvim-dap').default_setup(config) end,
-        },
-      })
-    end
-  },
 
   -- Completion
   {
@@ -222,12 +208,6 @@ require("lazy").setup({
     "stevearc/conform.nvim",
     config = function(_, opts)
       require("conform").setup(opts)
-    end
-  },
-  {
-    "zapling/mason-conform.nvim",
-    config = function(_, opts)
-      require("mason-conform").setup(opts)
     end
   },
 
@@ -498,64 +478,37 @@ cmp.setup.cmdline(':', {
   })
 })
 
--- LSP Configuration
-local lspLists = {
-  "ts_ls", "rust_analyzer", "gopls", "lua_ls", "prismals",
-  "emmet_ls", "cssls", "volar", "intelephense", "tailwindcss",
-  "dockerls", "yamlls", "clangd", "eslint", "jsonls",
-  "jedi_language_server", "omnisharp", "html", "volar", "svelte", "astro" 
-}
 
--- Mason setup
-require('mason').setup()
-require('mason-lspconfig').setup({
-  ensure_installed = lspLists,
-  automatic_installation = true
-})
-
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local on_attach = function(client, buffer)
-  if client.resolved_capabilities ~= nil then
-    client.resolved_capabilities.document_formatting = true
-  end
-  vim.lsp.inlay_hint.enable(true)
-end
-
--- Setup each LSP
-for _, server in ipairs(lspLists) do
-  require('lspconfig')[server].setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-  }
-end
-
-local lspconfig = require('lspconfig')
-
-local mason_registry = require('mason-registry')
-local vue_language_server_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
-lspconfig.ts_ls.setup {
+vim.lsp.config('vue_ls', {
+  -- add filetypes for typescript, javascript and vue
+  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
   init_options = {
-    plugins = {
-      {
-        name = '@vue/typescript-plugin',
-        location = vue_language_server_path,
-        languages = { 'vue' },
-      },
+    vue = {
+      -- disable hybrid mode
+      hybridMode = false,
+    },
+    typescript = {
+      tsdk = "/home/dev/.nvm/versions/node/v22.14.0/lib/node_modules/typescript/lib"
     },
   },
-  filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-}
+})
 
--- No need to set `hybridMode` to `true` as it's the default value
-lspconfig.volar.setup {}
+vim.lsp.config('rust_analyzer', {
+  settings = {
+    ['rust-analyzer'] = {
+      diagnostics = {
+        enable = false,
+      }
+    }
+  }
+})
 
--- Additional LSP setups
-require('lspconfig').lua_ls.setup {
-  capabilities = capabilities,
-  on_attach = on_attach,
-}
+vim.lsp.enable('vue_ls')
+vim.lsp.enable('lua_ls')
+vim.lsp.enable('denols')
+vim.lsp.enable('denols')
+vim.lsp.enable('tailwindcss')
 
-require('lspconfig').stimulus_ls.setup {}
 
 -- LSP signature setup
 require("lsp_signature").setup({
@@ -570,12 +523,22 @@ require('lspsaga').setup({})
 
 -- Function to organize imports
 local function organize_imports()
-  local params = {
-    command = "_typescript.organizeImports",
-    arguments = { vim.api.nvim_buf_get_name(0) },
-    title = ""
-  }
-  vim.lsp.buf.execute_command(params)
+  local bufnr = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients({ bufnr = bufnr })
+
+  for _, client in ipairs(clients) do
+    if client.name == "ts_ls" then
+      client:exec_cmd({
+        title = "Organize Import",
+        command = "_typescript.organizeImports",
+        arguments = { vim.api.nvim_buf_get_name(bufnr) },
+      }, { bufnr = bufnr })
+      vim.notify("Import Organized", vim.log.levels.INFO)
+      return
+    end
+  end
+
+  vim.notify("Organize Imports: No suitable LSP client found.", vim.log.levels.WARN)
 end
 
 -- LSP keybindings
@@ -615,6 +578,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
     vim.keymap.set('n', '<space>f', function()
       vim.lsp.buf.format { async = true }
+      vim.notify("File formatted", vim.log.levels.INFO)
     end, opts)
   end,
 })
@@ -719,4 +683,5 @@ local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>h', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>h', builtin.help_tags, {})
