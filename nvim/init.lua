@@ -23,14 +23,13 @@ vim.opt.ignorecase = true
 vim.opt.history = 500
 vim.opt.completeopt = "menu,menuone,noselect,noinsert"
 vim.opt.swapfile = false
-vim.opt.termguicolors = true -- Important for colorizer and other color-related plugins
+vim.opt.termguicolors = true
 vim.opt.clipboard = "unnamedplus"
 
--- Tab and indentation settings
 vim.opt.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
-vim.cmd('set re=0') -- Use new regexp engine
+vim.cmd('set re=0')
 
 -- Undo settings
 vim.o.undofile = true
@@ -424,6 +423,21 @@ cmp.setup({
     }),
   },
   mapping = cmp.mapping.preset.insert({
+    ['<C-n>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+
+    ['<C-p>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -506,7 +520,7 @@ vim.lsp.config('rust_analyzer', {
 vim.lsp.enable('vue_ls')
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('denols')
-vim.lsp.enable('denols')
+-- vim.lsp.enable('ts_ls')
 vim.lsp.enable('tailwindcss')
 
 
