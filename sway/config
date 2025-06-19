@@ -1,4 +1,4 @@
-# Default terminal
+#Default terminal
 set $term ghostty
 set $file dolphin
 
@@ -35,10 +35,8 @@ font pango:JetBrains Mono 9
 workspace_layout default
 
 # Border style and gaps
-default_border pixel 2
-default_floating_border pixel 2
-hide_edge_borders smart
-gaps inner 2
+# default_border pixel 2
+# default_floating_border pixel 2
 
 ### Key Bindings ###
 # Basic Commands
@@ -76,8 +74,8 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # Window Splitting (Vim-inspired)
-bindsym $mod+backslash split h  # Like Vim's Ctrl+w+v
-bindsym $mod+minus split v      # Like Vim's Ctrl+w+s
+bindsym $mod+backslash split h  
+bindsym $mod+minus split v 
 
 # Layout Management
 bindsym $mod+s layout stacking
@@ -136,10 +134,6 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-# Marks (like Vim marks)
-bindsym $mod+m exec i3-input -F 'mark %s' -P 'Mark: '
-bindsym $mod+g exec i3-input -F '[con_mark="%s"] focus' -P 'Go to mark: '
-
 # Scratchpad (like Vim's hidden buffers)
 bindsym $mod+Shift+grave move scratchpad
 bindsym $mod+grave scratchpad show
@@ -181,21 +175,15 @@ bindsym XF86AudioPrev exec playerctl previous
 ### Autostart Applications ###
 # Start Waybar
  exec mako
- exec_always flameshot
- exec_always --no-startup-id waybar
+exec --no-startup-id kwalletd6
+exec --no-startup-id /usr/lib/pam_kwallet_init
+exec_always --no-startup-id waybar
 
 # Authentication agent
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 # Screen locking
 set $lock swaylock -f -c 000000
-exec sway-audio-idle-inhibit
-
-exec swayidle -w \
-    timeout 300 '$lock' \
-    timeout 600 'swaymsg "output * dpms off"' \
-    resume 'swaymsg "output * dpms on"' \
-    before-sleep '$lock'
 
 # Lock screen shortcut
 bindsym $mod+Ctrl+l exec $lock
