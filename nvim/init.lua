@@ -76,6 +76,30 @@ require("lazy").setup({
     end
   },
 
+  -- mason
+  {
+    "mason-org/mason.nvim",
+    opts = {
+      ui = {
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+          package_uninstalled = "✗"
+        }
+      }
+    }
+  },
+
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts = {},
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      "neovim/nvim-lspconfig",
+    },
+  },
+
+
   -- LSP signature help
   {
     "ray-x/lsp_signature.nvim",
@@ -353,10 +377,19 @@ require("lazy").setup({
       }
     end
   },
+
+
+  "zbirenbaum/copilot.lua",
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function()
+      require("copilot_cmp").setup()
+    end
+  }
 })
 
 -- Colorscheme configuration
-vim.cmd.colorscheme 'carbonfox'
+vim.cmd.colorscheme 'kanagawa'
 vim.cmd("syntax enable")
 vim.cmd('au ColorScheme * hi Normal ctermbg=none guibg=none')
 
@@ -383,12 +416,27 @@ vim.api.nvim_set_hl(0, 'CmpItemKindKeyword', { bg = 'NONE', fg = '#D4D4D4' })
 vim.api.nvim_set_hl(0, 'CmpItemKindProperty', { link = 'CmpItemKindKeyword' })
 vim.api.nvim_set_hl(0, 'CmpItemKindUnit', { link = 'CmpItemKindKeyword' })
 
+local lang_list = {
+  "lua_ls", "ts_ls", "vue_ls"
+}
+
+-- Mason
+require("mason-lspconfig").setup {
+  automatic_enable = {
+    "lua_ls", "ts_ls"
+  },
+  ensure_installed = {
+    lang_list
+  }
+}
+
 -- Configure completion
 local cmp = require('cmp')
 local lspkind = require("lspkind")
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 
 cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+
 
 cmp.setup({
   formatting = {
@@ -460,6 +508,7 @@ cmp.setup({
     ['<CR>'] = cmp.mapping.confirm({ select = false }),
   }),
   sources = cmp.config.sources({
+    { name = "copilot", group_index = 2 },
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
   }, {
@@ -516,12 +565,6 @@ vim.lsp.config('rust_analyzer', {
     }
   }
 })
-
-vim.lsp.enable('vue_ls')
-vim.lsp.enable('lua_ls')
-vim.lsp.enable('denols')
--- vim.lsp.enable('ts_ls')
-vim.lsp.enable('tailwindcss')
 
 
 -- LSP signature setup
@@ -699,3 +742,10 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>h', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>h', builtin.help_tags, {})
+
+
+-- copilot
+require("copilot").setup({
+  suggestion = { enabled = false },
+  panel = { enabled = false },
+})
