@@ -389,7 +389,7 @@ require("lazy").setup({
 })
 
 -- Colorscheme configuration
-vim.cmd.colorscheme 'kanagawa'
+vim.cmd.colorscheme 'solarized-osaka'
 vim.cmd("syntax enable")
 vim.cmd('au ColorScheme * hi Normal ctermbg=none guibg=none')
 
@@ -742,7 +742,6 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>h', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>h', builtin.help_tags, {})
-
 
 -- copilot
 require("copilot").setup({
