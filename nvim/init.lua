@@ -335,7 +335,6 @@ require("lazy").setup({
       require('nvim-treesitter.configs').setup {
         sync_install = false,
         auto_install = true,
-        ensure_installed = { "typescript" },
         highlight = { enable = true },
       }
     end
@@ -377,15 +376,6 @@ require("lazy").setup({
       }
     end
   },
-
-
-  "zbirenbaum/copilot.lua",
-  {
-    "zbirenbaum/copilot-cmp",
-    config = function()
-      require("copilot_cmp").setup()
-    end
-  }
 })
 
 -- Colorscheme configuration
@@ -423,7 +413,7 @@ local lang_list = {
 -- Mason
 require("mason-lspconfig").setup {
   automatic_enable = {
-    "lua_ls", "ts_ls"
+    lang_list
   },
   ensure_installed = {
     lang_list
@@ -508,7 +498,6 @@ cmp.setup({
     ['<CR>'] = cmp.mapping.confirm({ select = false }),
   }),
   sources = cmp.config.sources({
-    { name = "copilot", group_index = 2 },
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
   }, {
@@ -742,9 +731,3 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>h', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>h', builtin.help_tags, {})
-
--- copilot
-require("copilot").setup({
-  suggestion = { enabled = false },
-  panel = { enabled = false },
-})
