@@ -407,7 +407,7 @@ vim.api.nvim_set_hl(0, 'CmpItemKindProperty', { link = 'CmpItemKindKeyword' })
 vim.api.nvim_set_hl(0, 'CmpItemKindUnit', { link = 'CmpItemKindKeyword' })
 
 local lang_list = {
-  "lua_ls", "ts_ls", "vue_ls"
+  "lua_ls", "ts_ls", "vue_ls", "svelte", "bashls"
 }
 
 -- Mason
@@ -415,9 +415,7 @@ require("mason-lspconfig").setup {
   automatic_enable = {
     lang_list
   },
-  ensure_installed = {
-    lang_list
-  }
+  ensure_installed = lang_list
 }
 
 -- Configure completion
