@@ -379,7 +379,7 @@ require("lazy").setup({
 })
 
 -- Colorscheme configuration
-vim.cmd.colorscheme 'solarized-osaka'
+vim.cmd.colorscheme 'tokyonight'
 vim.cmd("syntax enable")
 vim.cmd('au ColorScheme * hi Normal ctermbg=none guibg=none')
 
