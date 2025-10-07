@@ -379,7 +379,7 @@ require("lazy").setup({
 })
 
 -- Colorscheme configuration
-vim.cmd.colorscheme 'tokyonight'
+vim.cmd.colorscheme 'tokyonight-night'
 vim.cmd("syntax enable")
 vim.cmd('au ColorScheme * hi Normal ctermbg=none guibg=none')
 
@@ -407,7 +407,7 @@ vim.api.nvim_set_hl(0, 'CmpItemKindProperty', { link = 'CmpItemKindKeyword' })
 vim.api.nvim_set_hl(0, 'CmpItemKindUnit', { link = 'CmpItemKindKeyword' })
 
 local lang_list = {
-  "lua_ls", "ts_ls", "vue_ls", "svelte", "bashls"
+  "lua_ls", "ts_ls", "vue_ls", "svelte", "bashls", "rust_analyzer"
 }
 
 -- Mason
