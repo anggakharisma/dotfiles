@@ -407,7 +407,7 @@ vim.api.nvim_set_hl(0, 'CmpItemKindProperty', { link = 'CmpItemKindKeyword' })
 vim.api.nvim_set_hl(0, 'CmpItemKindUnit', { link = 'CmpItemKindKeyword' })
 
 local lang_list = {
-  "lua_ls", "ts_ls", "vue_ls", "svelte", "bashls", "rust_analyzer"
+  "lua_ls", "ts_ls", "vue_ls", "svelte", "bashls", "rust_analyzer", "gopls"
 }
 
 -- Mason
